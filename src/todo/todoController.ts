@@ -1,16 +1,9 @@
-import http from "http";
 import { ParsedUrlQuery } from "querystring";
 
 // Utils
-import { Todo } from "./todoTypes";
+import { Controller } from "../types";
 import { todoModel } from "./todoModel";
 import { send400, send404, send405, send500, sendJSON } from "../utils";
-
-type Controller = {
-  req: http.IncomingMessage;
-  res: http.ServerResponse;
-  query: ParsedUrlQuery;
-};
 
 function getTodoId(query: ParsedUrlQuery): number | undefined {
   // Get the ID from the query

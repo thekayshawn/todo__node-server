@@ -6,6 +6,7 @@ import http from "http";
 import { allowedOrigins, send400, send403, send404 } from "./utils";
 
 // Controllers
+import { userController } from "./user/userController";
 import { todoController } from "./todo/todoController";
 
 const server = http.createServer(
@@ -52,6 +53,7 @@ const server = http.createServer(
     // Find requested controller
     const controller = {
       "/todos": todoController,
+      "/users": userController,
     }[pathname || ""];
 
     // Send 404 if no controller is found

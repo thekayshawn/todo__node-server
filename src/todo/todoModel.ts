@@ -1,16 +1,13 @@
 // Utils
+import { database } from "../database";
 import { NewTodo, Todo } from "./todoTypes";
-import { query, queryOne } from "../database";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
 
 /**
  * Get all todos
  * @returns {Promise<Todo[]>} - All todos
  */
 async function getAllTodos(): Promise<Todo[]> {
-  return client.todos.findMany();
+  return database.todos.findMany();
 }
 
 /**
@@ -19,7 +16,7 @@ async function getAllTodos(): Promise<Todo[]> {
  * @returns {Promise<Todo>} - Todo
  */
 async function getTodoById(id: Todo["id"]): Promise<Todo | null> {
-  return client.todos.findUnique({ where: { id } });
+  return database.todos.findUnique({ where: { id } });
 }
 
 /**
@@ -28,7 +25,7 @@ async function getTodoById(id: Todo["id"]): Promise<Todo | null> {
  * @returns {Promise<Todo>} - Add todo
  */
 async function addTodo({ title, completed }: NewTodo): Promise<Todo> {
-  return client.todos.create({ data: { title, completed } });
+  return database.todos.create({ data: { title, completed } });
 }
 
 /**
@@ -41,7 +38,7 @@ async function updateTodoById(
   id: Todo["id"],
   todo: Partial<NewTodo>
 ): Promise<Todo> {
-  return client.todos.update({ where: { id }, data: todo });
+  return database.todos.update({ where: { id }, data: todo });
 }
 
 /**
@@ -50,7 +47,7 @@ async function updateTodoById(
  * @returns {Promise<void>} - Remove todo
  */
 async function removeTodoById(id: Todo["id"]): Promise<Todo> {
-  return client.todos.delete({ where: { id } });
+  return database.todos.delete({ where: { id } });
 }
 
 export const todoModel = {
