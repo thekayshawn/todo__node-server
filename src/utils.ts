@@ -5,6 +5,10 @@ export const ROOT_DIR = path.resolve(__dirname, "../");
 
 export const allowedOrigins = ["http://localhost:5173"];
 
+export function isInteger(value: any): value is number {
+  return typeof value === "number" && Number.isInteger(value);
+}
+
 export function sendJSON(res: http.ServerResponse, json: any) {
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(json));

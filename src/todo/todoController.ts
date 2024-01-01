@@ -73,7 +73,7 @@ function postTodo({ req, res }: Controller) {
     }
 
     todoModel
-      .addTodo({ title, completed: false })
+      .addTodo({ title, completed: 0 })
       .then((newTodo) => {
         sendJSON(res, newTodo);
       })
@@ -86,8 +86,9 @@ function postTodo({ req, res }: Controller) {
 
 function patchTodo({ req, res, query }: Controller) {
   const id = query.id?.toString();
+  const todoId = parseInt(id || "");
 
-  if (!id) {
+  if (!todoId) {
     send400(res);
     return;
   }
@@ -108,7 +109,7 @@ function patchTodo({ req, res, query }: Controller) {
 
     // Get the data from the query
     const title: string | undefined = params.title;
-    const completed: boolean | undefined = params.completed;
+    const completed: number | undefined = params.completed;
 
     // Send 400 if no data is provided
     if (!title && completed === undefined) {
@@ -122,7 +123,7 @@ function patchTodo({ req, res, query }: Controller) {
     };
 
     todoModel
-      .updateTodoById(id, todo)
+      .updateTodoById(todoId, todo)
       .then((updatedTodo) => {
         sendJSON(res, updatedTodo);
       })

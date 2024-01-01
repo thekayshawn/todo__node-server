@@ -1,7 +1,7 @@
 {
   "name": "todo__node",
   "version": "1.0.0",
-  "description": "",
+  "description": "Todo app using custom ORM with MySQL",
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon -r dotenv/config dist/index.js",
@@ -16,11 +16,9 @@
     "@types/node": "^20.10.6",
     "dotenv": "^16.3.1",
     "nodemon": "^3.0.2",
-    "prisma": "^5.7.1",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@prisma/client": "5.7.1",
     "mysql": "^2.18.1"
   }
 }

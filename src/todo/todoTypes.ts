@@ -5,4 +5,4 @@ export type Todo = {
   createdAt: Date;
 };
 
-export type NewTodo = Omit<Todo, "id">;
+export type NewTodo = Omit<Todo, "id" | "createdAt">;
