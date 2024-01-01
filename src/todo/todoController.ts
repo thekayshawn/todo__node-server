@@ -12,9 +12,20 @@ type Controller = {
   query: ParsedUrlQuery;
 };
 
-function getTodos({ res, query }: Controller) {
+function getTodoId(query: ParsedUrlQuery): number | undefined {
   // Get the ID from the query
   const id = query.id?.toString();
+
+  // Send 400 if the id is missing
+  if (!id) {
+    return;
+  }
+
+  return parseInt(id);
+}
+
+function getTodos({ res, query }: Controller) {
+  const id = getTodoId(query);
 
   // Return todo by id if it exists
   if (id) {
@@ -73,7 +84,7 @@ function postTodo({ req, res }: Controller) {
     }
 
     todoModel
-      .addTodo({ title, completed: false })
+      .addTodo({ title, completed: 0 })
       .then((newTodo) => {
         sendJSON(res, newTodo);
       })
@@ -86,8 +97,9 @@ function postTodo({ req, res }: Controller) {
 
 function patchTodo({ req, res, query }: Controller) {
   const id = query.id?.toString();
+  const todoId = parseInt(id || "");
 
-  if (!id) {
+  if (!todoId) {
     send400(res);
     return;
   }
@@ -118,11 +130,11 @@ function patchTodo({ req, res, query }: Controller) {
 
     const todo = {
       ...(title && { title }),
-      ...(completed !== undefined && { completed }),
+      ...(completed !== undefined && { completed: completed ? 1 : 0 }),
     };
 
     todoModel
-      .updateTodoById(id, todo)
+      .updateTodoById(todoId, todo)
       .then((updatedTodo) => {
         sendJSON(res, updatedTodo);
       })
@@ -134,7 +146,7 @@ function patchTodo({ req, res, query }: Controller) {
 }
 
 function deleteTodo({ res, query }: Controller) {
-  const id = query.id?.toString();
+  const id = getTodoId(query);
 
   if (!id) {
     send400(res);
